@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { memo } from "react";
-import type { Character } from "../types";
-import FavoriteButton from "./FavoriteButton";
+import type { Character } from "../../types";
+import FavoriteButton from "../FavoriteButton";
 import './CharacterCard.css';
 
 interface CharacterCardProps {

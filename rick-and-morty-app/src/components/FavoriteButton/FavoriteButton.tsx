@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useFavoritesStore } from '../store/useFavouriteStore'
+import { useFavoritesStore } from '../../store/useFavouriteStore'
 import './FavoriteButton.css'
 
 interface FavoriteButtonProps {
