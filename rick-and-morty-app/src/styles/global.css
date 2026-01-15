@@ -15,85 +15,80 @@ html, body, #root {
 body {
   margin: 0;
   padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .app.light {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #f8fafc;
+  color: #1e293b;
   min-height: 100vh;
   width: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app.dark {
-  background-color: #1a1a1a;
-  color: #ffffff;
+  background-color: #0f172a;
+  color: #f1f5f9;
   min-height: 100vh;
   width: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Theme Toggle */
 .theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 1000;
-  padding: 8px;
-  border-radius: 50%;
-  transition: transform 0.2s ease;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.app.light .theme-toggle {
+  background-color: #f1f5f9;
+}
+
+.app.dark .theme-toggle {
+  background-color: #1e293b;
 }
 
 .theme-toggle:hover {
   transform: scale(1.1);
 }
 
-.search-filters {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+.app.light .theme-toggle:hover {
+  background-color: #e2e8f0;
 }
 
-.app.light .search-filters input,
-.app.light .search-filters select {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
+.app.dark .theme-toggle:hover {
+  background-color: #334155;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app.light ::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
   border-radius: 4px;
-  background-color: #ffffff;
-  color: #000000;
 }
 
-.app.dark .search-filters input,
-.app.dark .search-filters select {
-  padding: 8px 12px;
-  border: 1px solid #444;
+.app.dark ::-webkit-scrollbar-thumb {
+  background-color: #475569;
   border-radius: 4px;
-  background-color: #2d2d2d;
-  color: #ffffff;
 }
 
-.search-filters button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.search-filters button:hover {
-  background-color: #0056b3;
-}
-
-.app.dark .search-filters button {
-  background-color: #0056b3;
-}
-
-.app.dark .search-filters button:hover {
-  background-color: #003d82;
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.8;
 }

@@ -1,0 +1,78 @@
+.empty-state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 300px;
+    text-align: center;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.app.light .empty-state-container {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.app.dark .empty-state-container {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+}
+
+.empty-state-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.empty-state-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+}
+
+.app.light .empty-state-title {
+    color: #334155;
+}
+
+.app.dark .empty-state-title {
+    color: #e2e8f0;
+}
+
+.empty-state-message {
+    font-size: 14px;
+    margin: 0 0 24px 0;
+    max-width: 300px;
+}
+
+.app.light .empty-state-message {
+    color: #64748b;
+}
+
+.app.dark .empty-state-message {
+    color: #94a3b8;
+}
+
+.empty-state-action {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.app.light .empty-state-action {
+    background-color: #97ce4c;
+    color: #1a1a1a;
+}
+
+.app.dark .empty-state-action {
+    background-color: #97ce4c;
+    color: #1a1a1a;
+}
+
+.empty-state-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(151, 206, 76, 0.3);
+}

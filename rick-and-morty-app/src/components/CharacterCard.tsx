@@ -9,19 +9,33 @@ interface CharacterCardProps {
 }
 
 function CharacterCard({ character }: CharacterCardProps) {
+    const getStatusClass = (status: string) => {
+        return `character-status status-${status.toLowerCase()}`
+    }
+
     return (
-        <div className="character-card">
-            <FavoriteButton characterId={character.id} />
-            <Link to={`/character/${character.id}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, textDecoration: 'none' }}>
-                <div className="character-image">
-                    <img src={character.image} alt={character.name} />
+        <article className="character-card">
+            <div className="character-card-favorite">
+                <FavoriteButton characterId={character.id} />
+            </div>
+            <Link to={`/character/${character.id}`} className="character-card-link">
+                <div className="character-card-image">
+                    <img src={character.image} alt={character.name} loading="lazy" />
+                    <span className={getStatusClass(character.status)}>
+                        {character.status}
+                    </span>
                 </div>
-                <div className="character-info">
-                    <h2>{character.name}</h2>
-                    <p>{character.species} - {character.status}</p>
+                <div className="character-card-content">
+                    <h3 className="character-card-name">{character.name}</h3>
+                    <p className="character-card-species">{character.species}</p>
+                    <div className="character-card-meta">
+                        <span className="character-card-location">
+                            📍 {character.location.name}
+                        </span>
+                    </div>
                 </div>
             </Link>
-        </div>
+        </article>
     )
 }
 

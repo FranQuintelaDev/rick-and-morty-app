@@ -1,81 +1,61 @@
-import { useState, useMemo } from "react"
 import { useCharacters } from "../hooks/useCharacters"
-import SearchFilters from "../components/SearchFilters"
+import SearchFilters from "../components/SearchFilters/SearchFilters"
+import CharacterGrid from "../components/CharacterGrid"
+import Header from "../components/Header"
+import { Loading, ErrorMessage, EmptyState } from "../components/ui"
+import { useFiltersStore } from "../store/useFiltersStore"
 import './CharacterList.css'
-import VirtualizedCharacterList from "../components/VirtualizedCharacterList"
 
 function CharacterList() {
-    const [searchParams, setSearchParams] = useState({
-        name: '',
-        species: '',
-        status: ''
-    })
-
-    const [filterInput, setFilterInput] = useState({
-        name: '',
-        species: '',
-        status: ''
-    })
-
-    const memoizedSearchParams = useMemo(() => ({
-        name: searchParams.name,
-        species: searchParams.species,
-        status: searchParams.status
-    }), [searchParams.name, searchParams.species, searchParams.status])
-
-    const { data, isLoading, error } = useCharacters(memoizedSearchParams)
-
-    const handleSearch = () => {
-        setSearchParams(filterInput)
-    }
-
-    const handleReset = () => {
-        setFilterInput({
-            name: '',
-            species: '',
-            status: ''
-        })
-        setSearchParams({
-            name: '',
-            species: '',
-            status: ''
-        })
-    }
+    const { appliedFilters, resetFilters } = useFiltersStore()
+    const { data, isLoading, error, refetch } = useCharacters(appliedFilters)
 
     return (
-        <div className="character-list-container">
-            <h1>Rick and Morty Characters</h1>
-            <SearchFilters
-                filters={filterInput}
-                onFilterChange={setFilterInput}
-                onSearch={handleSearch}
-                onReset={handleReset}
-            />
+        <div className="character-list-page">
+            <Header title="Rick and Morty" />
+            
+            <main className="character-list-main">
+                <div className="character-list-container">
+                    <SearchFilters />
 
-            {isLoading && (
-                <div className="state-message loading">
-                    <div className="spinner"></div>
-                    <p>Loading characters...</p>
+                    {isLoading && (
+                        <Loading 
+                            message="Loading characters..." 
+                            size="large" 
+                            fullScreen 
+                        />
+                    )}
+
+                    {error && (
+                        <ErrorMessage 
+                            title="Error loading characters"
+                            message="Something went wrong while fetching the characters."
+                            onRetry={() => refetch()}
+                        />
+                    )}
+
+                    {!isLoading && !error && !data?.results?.length && (
+                        <EmptyState 
+                            title="No characters found"
+                            message="Try adjusting your search or filters to find what you're looking for."
+                            icon="👽"
+                            actionLabel="Clear Filters"
+                            onAction={resetFilters}
+                        />
+                    )}
+
+                    {!isLoading && !error && data?.results && data.results.length > 0 && (
+                        <>
+                            <div className="results-info">
+                                <span className="results-count">
+                                    Found {data.info.count} character{data.info.count !== 1 ? 's' : ''}
+                                </span>
+                            </div>
+                            <CharacterGrid characters={data.results} />
+                        </>
+                    )}
                 </div>
-            )}
-
-            {error && (
-                <div className="state-message error">
-                    <span className="icon">⚠️</span>
-                    <p>Error loading characters</p>
-                </div>
-            )}
-
-            {!isLoading && !error && !data && (
-                <div className="state-message not-found">
-                    <span className="icon">🔍</span>
-                    <p>No characters found</p>
-                </div>
-            )}
-
-            {!isLoading && !error && data && (
-                <VirtualizedCharacterList characters={data.results} />
-            )}
+            </main>
         </div>
     )
 }

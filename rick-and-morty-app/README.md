@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# Rick and Morty App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una app para ver personajes de Rick and Morty usando la API pública.
 
-Currently, two official plugins are available:
+## Cómo ejecutar el proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Requisitos
+- Node.js (v18+)
+- npm
 
-## React Compiler
+### Instalación
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Instalar dependencias
+npm install
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Arrancar en modo desarrollo
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+La app estará disponible en `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Otros comandos útiles
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build      # Build de producción
+npm run test       # Ejecutar tests
+npm run lint       # Linter
 ```
+
+---
+
+## Arquitectura y decisiones técnicas
+
+### Stack
+- **React 19** + **TypeScript** + **Vite** - Setup moderno y rápido
+- **React Query** - Para data fetching con caché automática
+- **Zustand** - Estado global simple (favoritos y filtros)
+- **React Router** - Navegación SPA
+
+### Estructura del proyecto
+
+```
+src/
+├── components/       # Componentes reutilizables
+│   ├── Header/       # Header con navegación
+│   ├── CharacterCard/
+│   ├── CharacterGrid/
+│   ├── SearchFilters/ # Filtros con Zustand
+│   └── ui/           # Loading, Error, EmptyState
+├── pages/            # Páginas principales
+├── hooks/            # Custom hooks (useCharacters, useCharacter)
+├── store/            # Zustand stores
+├── services/         # API calls
+└── types/            # TypeScript types
+```
+
+### Decisiones clave
+
+- **Componentes desacoplados**: Separé Loading, Error y EmptyState en componentes UI reutilizables para no repetir código en cada página.
+
+- **Zustand para filtros**: En vez de prop drilling o Context, usé Zustand. El store de filtros separa `filters` (lo que el usuario escribe) de `appliedFilters` (lo que se busca), así la búsqueda solo se dispara cuando el usuario hace clic en "Search".
+
+- **Grid responsive**: Cambié la lista virtualizada por un CSS Grid que aprovecha mejor el espacio horizontal (1-4 columnas según el viewport).
+
+- **React Query**: Maneja el fetching, caché y estados de loading/error automáticamente. Los datos se cachean por queryKey, así que si vuelves a un personaje que ya visitaste, carga instantáneo.
+
+- **Favoritos persistidos**: El store de favoritos usa `persist` de Zustand para guardar en localStorage.
+
+---
+
+## Mejoras pendientes
+
+Con más tiempo añadiría:
+
+- **Paginación infinita** o botón "cargar más" (la API tiene paginación)
+- **Tests E2E** con Playwright
+- **Skeleton loaders** en vez de spinner
+- **Filtro por favoritos** para ver solo los guardados
+- **PWA** para funcionar offline
