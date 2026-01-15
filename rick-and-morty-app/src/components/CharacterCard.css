@@ -1,0 +1,86 @@
+.character-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  text-decoration: none;
+  height: 100px;
+}
+
+.app.light .character-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+}
+
+.app.dark .character-card {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+}
+
+.character-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.character-image {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.character-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.character-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.character-info h2 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app.light .character-info h2 {
+  color: #000000;
+}
+
+.app.dark .character-info h2 {
+  color: #ffffff;
+}
+
+.character-info p {
+  margin: 0;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app.light .character-info p {
+  color: #666666;
+}
+
+.app.dark .character-info p {
+  color: #b0b0b0;
+}
+
+.character-card .favorite-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}

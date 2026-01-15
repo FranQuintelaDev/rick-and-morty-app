@@ -1,0 +1,20 @@
+.favorite-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.favorite-button:hover {
+  transform: scale(1.2);
+}
+
+.character-card .favorite-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
